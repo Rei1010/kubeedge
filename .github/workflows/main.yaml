@@ -2,9 +2,6 @@ name: Main CI WorkFlow
 
 on:
   push:
-    branches:
-      - master
-    tags:
   pull_request:
 
 env:
@@ -129,6 +126,12 @@ jobs:
       - run: make test
 
       - run: make integrationtest
+
+      - name: Run coverage
+        run: go test -race -coverprofile=coverage.out -covermode=atomic
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
 
   e2e_test:
     runs-on: ubuntu-18.04
